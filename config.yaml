@@ -1,0 +1,62 @@
+# ============================================================================
+# gelation-transfer — global configuration
+# Every stage reads seeds, thresholds, CV settings, and paths from here so that
+# nothing is hard-coded in a script and every number is regenerable.
+# ============================================================================
+
+seed: 20260903            # master RNG seed; all stochastic steps derive from it
+
+paths:
+  raw: data/raw
+  processed: data/processed
+  features: data/features
+  results: results
+  tables: tables
+  figures: figures
+  provenance: PROVENANCE.md
+  dataset: data/processed/gelation_all.csv
+
+# --- Standardisation (RDKit) -------------------------------------------------
+standardize:
+  largest_fragment: true    # keep the largest organic fragment (strip salts)
+  neutralize: true          # neutralise charges where chemically sensible
+  canonical: true           # canonical, isomeric SMILES as the dedup key
+  isomeric: true            # keep stereochemistry in the canonical SMILES
+
+# --- Cross-validation --------------------------------------------------------
+cv:
+  within_family:
+    outer_splits: 5
+    outer_repeats: 10       # repeated stratified 5x10 per family (RQ baseline)
+  inner_splits: 5           # GridSearchCV inner folds (hyperparameters)
+  min_family_size: 30       # families below this are reported but flagged
+                            # "transfer numbers unreliable" (spec §12)
+
+# --- Bootstrap / statistics --------------------------------------------------
+stats:
+  n_bootstrap: 2000         # bootstrap over MOLECULES (not folds) for CIs
+  ci: 0.95
+
+# --- Applicability domain ----------------------------------------------------
+domain:
+  leverage_multiplier: 3    # Williams threshold h* = leverage_multiplier * p / n
+  fingerprint: ecfp4        # novelty = 1 - max Tanimoto to training set (ECFP4)
+  ecfp_radius: 2            # ECFP4 == Morgan radius 2
+  ecfp_nbits: 2048
+
+# --- Feature representations -------------------------------------------------
+features:
+  morgan_radius: 2
+  morgan_nbits: 2048
+  rdkit2d: true
+  mordred: true             # optional; skipped gracefully if it fails to import
+  alvadesc: true            # loaded from data/features/alvadesc_<family>.csv if present
+
+# --- Threshold sensitivity for continuous-score families ---------------------
+# Continuous families (e.g. Frederix/Tuttle tripeptide aggregation propensity)
+# are binarised at `primary`; `sensitivity` values are re-run to check the
+# finding is not an artefact of the cut. Concrete values are set per source in
+# PROVENANCE.md once the score distribution is known.
+threshold:
+  quantile_primary: 0.50    # placeholder; overridden per-source in curation
+  sensitivity_quantiles: [0.40, 0.60]

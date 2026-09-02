@@ -1,0 +1,17 @@
+# Raw downloads are large and re-downloadable; only the manifest is tracked.
+data/raw/**
+!data/raw/.gitkeep
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+*.egg-info/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Do NOT ignore processed data, features, results, tables, figures — those are
+# the reproducible outputs and are tracked so a reviewer can diff them.

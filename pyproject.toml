@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gelbench"
+version = "0.1.0"
+description = "Cross-chemistry gelation transfer benchmark for low-molecular-weight gelators"
+requires-python = ">=3.11"
+readme = "README.md"
+
+# Runtime deps are pinned in requirements.txt (exact reproducibility);
+# this list is intentionally loose so `pip install -e .` works alongside it.
+dependencies = [
+    "scikit-learn",
+    "rdkit",
+    "pandas",
+    "numpy",
+    "scipy",
+    "matplotlib",
+    "pyyaml",
+    "joblib",
+    "openpyxl",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
