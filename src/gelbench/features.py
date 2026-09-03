@@ -165,7 +165,7 @@ def _read_alvadesc_csv(path: Path) -> pd.DataFrame:
     # Sniff the delimiter from the header line.
     header = path.read_text(encoding="utf-8", errors="ignore").splitlines()[0]
     sep = "\t" if header.count("\t") >= header.count(";") else ";"
-    df = pd.read_csv(path, sep=sep)
+    df = pd.read_csv(path, sep=sep, low_memory=False)
     # Identify the name/id column and drop the running index column.
     name_col = next((c for c in df.columns if c.strip().upper() in ("NAME", "ID")), None)
     if name_col is None:
