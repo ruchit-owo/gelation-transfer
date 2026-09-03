@@ -1,4 +1,13 @@
 representation,model,held_out_family,n_train,n_test,test_majority_baseline,accuracy,auc
+alvadesc,hgb,nucleoside,967,71,0.535211,0.535211,0.512759
+alvadesc,hgb,peptide_expt,671,367,0.675749,0.427793,0.561517
+alvadesc,hgb,tripeptide,438,600,0.701667,0.593333,0.759418
+alvadesc,logreg,nucleoside,967,71,0.535211,0.408451,0.456938
+alvadesc,logreg,peptide_expt,671,367,0.675749,0.613079,0.562161
+alvadesc,logreg,tripeptide,438,600,0.701667,0.571667,0.653047
+alvadesc,rf,nucleoside,967,71,0.535211,0.507042,0.509171
+alvadesc,rf,peptide_expt,671,367,0.675749,0.523161,0.604093
+alvadesc,rf,tripeptide,438,600,0.701667,0.615000,0.792573
 mordred,hgb,nucleoside,967,71,0.535211,0.647887,0.668262
 mordred,hgb,peptide_expt,671,367,0.675749,0.471390,0.542051
 mordred,hgb,tripeptide,438,600,0.701667,0.451667,0.704654

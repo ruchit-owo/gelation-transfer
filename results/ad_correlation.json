@@ -1,47 +1,47 @@
 {
   "family_spearman_median_novelty_vs_aucdrop": {
-    "rho": -0.6581903893513152,
-    "p": 0.0001900752699390257,
-    "n": 27
+    "rho": -0.645198044466194,
+    "p": 2.1537628972224005e-05,
+    "n": 36
   },
   "family_spearman_median_leverage_vs_aucdrop": {
-    "rho": -0.5999434522405793,
-    "p": 0.0009400978380977622,
-    "n": 27
+    "rho": -0.49454266352484916,
+    "p": 0.0021697238279680927,
+    "n": 36
   },
   "family_spearman_median_knn_vs_aucdrop": {
-    "rho": -0.5999434522405793,
-    "p": 0.0009400978380977622,
-    "n": 27
+    "rho": -0.49454266352484916,
+    "p": 0.0021697238279680927,
+    "n": 36
   },
   "molecule_novelty_wrong_gt_right": {
     "median_wrong": 0.33333333333333337,
     "median_right": 0.33333333333333337,
-    "mannwhitney_U": 1234509.0,
-    "p": 0.17802395054431047,
-    "n_wrong": 1596,
-    "n_right": 1518
+    "mannwhitney_U": 2181811.5,
+    "p": 0.23670299385246363,
+    "n_wrong": 2037,
+    "n_right": 2115
   },
   "molecule_leverage_wrong_gt_right": {
-    "median_wrong": 1.7244653058459745,
-    "median_right": 0.9000167257420627,
-    "mannwhitney_U": 1404789.0,
-    "p": 6.146754682298795e-15,
-    "n_wrong": 1596,
-    "n_right": 1518
+    "median_wrong": 1.6015943651446987,
+    "median_right": 0.9585069172875438,
+    "mannwhitney_U": 2397865.5,
+    "p": 1.3753847414826598e-10,
+    "n_wrong": 2037,
+    "n_right": 2115
   },
   "molecule_knn_distance_wrong_gt_right": {
-    "median_wrong": 9.179724409889927,
-    "median_right": 7.639395612133445,
-    "mannwhitney_U": 1397664.0,
-    "p": 5.477611567108193e-14,
-    "n_wrong": 1596,
-    "n_right": 1518
+    "median_wrong": 9.090472894019758,
+    "median_right": 7.884955321927224,
+    "mannwhitney_U": 2398089.5,
+    "p": 1.3247473248336245e-10,
+    "n_wrong": 2037,
+    "n_right": 2115
   },
   "molecule_offfamily_accuracy_inside_vs_outside_domain": {
-    "inside_h*_accuracy": 0.5566666666666666,
-    "inside_h*_n": 1500,
-    "outside_h*_accuracy": 0.4231722428748451,
-    "outside_h*_n": 1614
+    "inside_h*_accuracy": 0.561,
+    "inside_h*_n": 2000,
+    "outside_h*_accuracy": 0.46143122676579923,
+    "outside_h*_n": 2152
   }
 }

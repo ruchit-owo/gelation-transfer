@@ -8,9 +8,10 @@
 > they were never trained on. What survives the chemistry gap is a *trust flag*:
 > off-family predictions are reliable only for molecules inside the training set's
 > applicability domain — **accuracy 0.56 inside the Williams leverage domain vs
-> 0.42 outside, and 0.36 for the most distant quartile.** Descriptor-space
-> leverage and nearest-neighbour distance flag the failures (p ≈ 10⁻¹⁴);
-> ECFP4 structural novelty does not.
+> 0.46 outside, and 0.40 for the most distant quartile.** Descriptor-space
+> leverage and nearest-neighbour distance flag the failures (p ≈ 10⁻¹⁰);
+> ECFP4 structural novelty does not. A commercial descriptor package (alvaDesc)
+> transfers no better than open-source descriptors.
 
 ![headline](figures/fig_headline_ad_trust.png)
 
@@ -40,7 +41,8 @@ RQ1 — transfer collapses to chance across **every** descriptor (RDKit-2D, Morg
 Mordred) and model (logistic regression, random forest, HistGradientBoosting).
 RQ2 — the drop is explained at the molecule level by AD **leverage/kNN distance**,
 not by fingerprint novelty. RQ3 — no descriptor robustly transfers better; the
-intervals overlap (alvaDesc arm pending the trial export).
+commercial **alvaDesc** (4215 2D descriptors) lands in the same near-chance band
+(0.50–0.58) as the open sets, and the intervals overlap.
 
 ## Reproduce
 

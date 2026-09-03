@@ -1,5 +1,8 @@
 | representation | family | n | majority_baseline | accuracy | auc | auc_lo | auc_hi |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| alvadesc | nucleoside | 71 | 0.535 | 0.690 | 0.759 | 0.645 | 0.862 |
+| alvadesc | peptide_expt | 367 | 0.676 | 0.858 | 0.921 | 0.890 | 0.946 |
+| alvadesc | tripeptide | 600 | 0.702 | 0.900 | 0.964 | 0.948 | 0.977 |
 | mordred | nucleoside | 71 | 0.535 | 0.648 | 0.709 | 0.583 | 0.824 |
 | mordred | peptide_expt | 367 | 0.676 | 0.861 | 0.915 | 0.880 | 0.943 |
 | mordred | tripeptide | 600 | 0.702 | 0.912 | 0.964 | 0.946 | 0.979 |

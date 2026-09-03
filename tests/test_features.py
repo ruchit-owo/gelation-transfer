@@ -52,6 +52,23 @@ def test_loader_fails_loudly_on_missing_molecule(cfg, tmp_path, monkeypatch):
         F.load_representation(cfg, "rdkit2d")
 
 
-def test_alvadesc_requested_but_absent_fails_loudly(cfg):
-    with pytest.raises(FileNotFoundError, match="alvaDesc CSV"):
-        load_representation(cfg, "alvadesc")
+def test_alvadesc_fails_loudly_when_family_file_absent(cfg, tmp_path):
+    # Point the features dir at an empty temp folder so alvaDesc files are absent,
+    # regardless of whether real exports exist in the repo.
+    cfg2 = dict(cfg)
+    cfg2["paths"] = dict(cfg["paths"])
+    cfg2["paths"]["features"] = tmp_path
+    with pytest.raises(FileNotFoundError, match="alvaDesc"):
+        load_representation(cfg2, "alvadesc")
+
+
+def test_alvadesc_aligns_when_present(cfg):
+    from gelbench.features import _alvadesc_path
+    ds = load_dataset(cfg)
+    fams = sorted(ds["family"].unique())
+    if not all(_alvadesc_path(cfg["paths"]["features"], f) for f in fams):
+        pytest.skip("alvaDesc exports not present")
+    rep = load_representation(cfg, "alvadesc")
+    assert list(rep.X.index) == list(ds["id"])       # aligned to dataset order
+    assert len(rep.X) == len(ds)
+    assert rep.X.shape[1] > 1000                      # thousands of 2D descriptors

@@ -1,5 +1,8 @@
 | representation | model | mean_transfer_auc | min_transfer_auc | n_pairs |
 | --- | --- | --- | --- | --- |
+| alvadesc | hgb | 0.524 | 0.366 | 6 |
+| alvadesc | logreg | 0.495 | 0.367 | 6 |
+| alvadesc | rf | 0.577 | 0.449 | 6 |
 | mordred | hgb | 0.566 | 0.411 | 6 |
 | mordred | logreg | 0.504 | 0.283 | 6 |
 | mordred | rf | 0.633 | 0.531 | 6 |

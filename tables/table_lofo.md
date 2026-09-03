@@ -1,5 +1,8 @@
 | representation | held_out_family | n_test | test_majority_baseline | accuracy | auc |
 | --- | --- | --- | --- | --- | --- |
+| alvadesc | nucleoside | 71 | 0.535 | 0.408 | 0.457 |
+| alvadesc | peptide_expt | 367 | 0.676 | 0.613 | 0.562 |
+| alvadesc | tripeptide | 600 | 0.702 | 0.572 | 0.653 |
 | mordred | nucleoside | 71 | 0.535 | 0.634 | 0.540 |
 | mordred | peptide_expt | 367 | 0.676 | 0.431 | 0.354 |
 | mordred | tripeptide | 600 | 0.702 | 0.575 | 0.626 |
