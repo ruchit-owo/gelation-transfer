@@ -45,10 +45,11 @@ def main() -> int:
     permol = pd.read_csv(res / "ad_per_molecule.csv")
 
     # --- figures -----------------------------------------------------------
-    plots.fig_headline_drop_vs_ad(perf, figs / "fig_headline_drop_vs_ad",
-                                  admetric="median_novelty")
+    plots.fig_headline_ad_trust(permol, figs / "fig_headline_ad_trust")   # lead
+    plots.fig_family_drop_vs_ad(perf, figs / "fig_family_drop_vs_ad",
+                                admetric="median_leverage")               # secondary
     plots.fig_within_family(within, figs / "fig_within_family")
-    plots.fig_molecule_ad(permol, figs / "fig_molecule_ad", admetric="novelty")
+    plots.fig_molecule_ad(permol, figs / "fig_molecule_ad", admetric="leverage")
     plots.fig_descriptor_comparison(matrix, figs / "fig_descriptor_comparison")
     for rep in sorted(matrix["representation"].unique()):
         plots.fig_transfer_heatmap(matrix, figs / f"fig_transfer_{rep}",
@@ -76,6 +77,12 @@ def main() -> int:
         ["representation", "family", "within_auc", "lofo_auc", "auc_drop",
          "median_novelty", "median_leverage", "frac_leverage_flagged"]]
     _md_table(ad, tabs / "table_ad_vs_performance")
+
+    trust_p = res / "ad_trust.csv"
+    if trust_p.exists():
+        trust = pd.read_csv(trust_p)
+        _md_table(trust[trust["model"] == "logreg"][["group", "n", "accuracy"]],
+                  tabs / "table_ad_trust")
 
     print("Figures written to", figs.relative_to(cfg["_root"]))
     for p in sorted(figs.glob("*.png")):

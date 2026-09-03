@@ -121,6 +121,39 @@ def main() -> int:
                 "mannwhitney_U": float(u), "p": float(p),
                 "n_wrong": int(len(wrong)), "n_right": int(len(right))}
 
+    # Molecule-level TRUST test (the actionable RQ2 result): within the pooled
+    # off-family predictions, is accuracy higher for molecules that sit INSIDE
+    # the training applicability domain than outside it? This is well powered
+    # (~1000s of molecules) and, unlike the 3-family drop-vs-AD correlation, is
+    # not confounded by each family's within-family ceiling.
+    trust_rows = []
+    for model in sorted(permol["model"].unique()):
+        pm_m = permol[permol["model"] == model].dropna(subset=["leverage"])
+        inside = pm_m[pm_m["leverage"] <= pm_m["leverage_star"]]
+        outside = pm_m[pm_m["leverage"] > pm_m["leverage_star"]]
+        trust_rows += [
+            {"model": model, "group": "inside_h*", "n": len(inside),
+             "accuracy": float(inside["correct"].mean())},
+            {"model": model, "group": "outside_h*", "n": len(outside),
+             "accuracy": float(outside["correct"].mean())},
+        ]
+        q = pd.qcut(pm_m["leverage"], 4, labels=["Q1_low", "Q2", "Q3", "Q4_high"],
+                    duplicates="drop")
+        for name, g in pm_m.groupby(q, observed=True):
+            trust_rows.append({"model": model, "group": f"leverage_{name}",
+                               "n": int(len(g)), "accuracy": float(g["correct"].mean())})
+    trust = pd.DataFrame(trust_rows)
+    trust.to_csv(res / "ad_trust.csv", index=False, lineterminator="\n",
+                 float_format="%.6f")
+    lg = trust[trust["model"] == "logreg"].set_index("group")
+    if "inside_h*" in lg.index and "outside_h*" in lg.index:
+        corr["molecule_offfamily_accuracy_inside_vs_outside_domain"] = {
+            "inside_h*_accuracy": float(lg.loc["inside_h*", "accuracy"]),
+            "inside_h*_n": int(lg.loc["inside_h*", "n"]),
+            "outside_h*_accuracy": float(lg.loc["outside_h*", "accuracy"]),
+            "outside_h*_n": int(lg.loc["outside_h*", "n"]),
+        }
+
     (res / "ad_correlation.json").write_text(json.dumps(corr, indent=2),
                                              encoding="utf-8")
 

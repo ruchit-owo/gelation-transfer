@@ -1,0 +1,11 @@
+| representation | model | mean_transfer_auc | min_transfer_auc | n_pairs |
+| --- | --- | --- | --- | --- |
+| mordred | hgb | 0.566 | 0.411 | 6 |
+| mordred | logreg | 0.504 | 0.283 | 6 |
+| mordred | rf | 0.633 | 0.531 | 6 |
+| morgan | hgb | 0.492 | 0.385 | 6 |
+| morgan | logreg | 0.534 | 0.374 | 6 |
+| morgan | rf | 0.491 | 0.347 | 6 |
+| rdkit2d | hgb | 0.499 | 0.299 | 6 |
+| rdkit2d | logreg | 0.474 | 0.335 | 6 |
+| rdkit2d | rf | 0.576 | 0.493 | 6 |

@@ -1,0 +1,11 @@
+| representation | family | n | majority_baseline | accuracy | auc | auc_lo | auc_hi |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| mordred | nucleoside | 71 | 0.535 | 0.648 | 0.709 | 0.583 | 0.824 |
+| mordred | peptide_expt | 367 | 0.676 | 0.861 | 0.915 | 0.880 | 0.943 |
+| mordred | tripeptide | 600 | 0.702 | 0.912 | 0.964 | 0.946 | 0.979 |
+| morgan | nucleoside | 71 | 0.535 | 0.704 | 0.778 | 0.661 | 0.879 |
+| morgan | peptide_expt | 367 | 0.676 | 0.774 | 0.819 | 0.767 | 0.864 |
+| morgan | tripeptide | 600 | 0.702 | 0.898 | 0.963 | 0.948 | 0.977 |
+| rdkit2d | nucleoside | 71 | 0.535 | 0.732 | 0.787 | 0.675 | 0.887 |
+| rdkit2d | peptide_expt | 367 | 0.676 | 0.834 | 0.913 | 0.878 | 0.941 |
+| rdkit2d | tripeptide | 600 | 0.702 | 0.925 | 0.967 | 0.951 | 0.980 |

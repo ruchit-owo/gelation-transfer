@@ -1,0 +1,11 @@
+| representation | family | within_auc | lofo_auc | auc_drop | median_novelty | median_leverage | frac_leverage_flagged |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| mordred | nucleoside | 0.709 | 0.540 | 0.169 | 0.855 | 92531.776 | 1.000 |
+| mordred | peptide_expt | 0.915 | 0.354 | 0.561 | 0.292 | 6673.684 | 0.986 |
+| mordred | tripeptide | 0.964 | 0.626 | 0.339 | 0.347 | 0.563 | 0.175 |
+| morgan | nucleoside | 0.778 | 0.502 | 0.277 | 0.855 | 92531.776 | 1.000 |
+| morgan | peptide_expt | 0.819 | 0.569 | 0.249 | 0.292 | 6673.684 | 0.986 |
+| morgan | tripeptide | 0.963 | 0.566 | 0.397 | 0.347 | 0.563 | 0.175 |
+| rdkit2d | nucleoside | 0.787 | 0.521 | 0.266 | 0.855 | 92531.776 | 1.000 |
+| rdkit2d | peptide_expt | 0.913 | 0.370 | 0.543 | 0.292 | 6673.684 | 0.986 |
+| rdkit2d | tripeptide | 0.967 | 0.661 | 0.306 | 0.347 | 0.563 | 0.175 |

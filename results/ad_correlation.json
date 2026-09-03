@@ -1,0 +1,47 @@
+{
+  "family_spearman_median_novelty_vs_aucdrop": {
+    "rho": -0.6581903893513152,
+    "p": 0.0001900752699390257,
+    "n": 27
+  },
+  "family_spearman_median_leverage_vs_aucdrop": {
+    "rho": -0.5999434522405793,
+    "p": 0.0009400978380977622,
+    "n": 27
+  },
+  "family_spearman_median_knn_vs_aucdrop": {
+    "rho": -0.5999434522405793,
+    "p": 0.0009400978380977622,
+    "n": 27
+  },
+  "molecule_novelty_wrong_gt_right": {
+    "median_wrong": 0.33333333333333337,
+    "median_right": 0.33333333333333337,
+    "mannwhitney_U": 1234509.0,
+    "p": 0.17802395054431047,
+    "n_wrong": 1596,
+    "n_right": 1518
+  },
+  "molecule_leverage_wrong_gt_right": {
+    "median_wrong": 1.7244653058459745,
+    "median_right": 0.9000167257420627,
+    "mannwhitney_U": 1404789.0,
+    "p": 6.146754682298795e-15,
+    "n_wrong": 1596,
+    "n_right": 1518
+  },
+  "molecule_knn_distance_wrong_gt_right": {
+    "median_wrong": 9.179724409889927,
+    "median_right": 7.639395612133445,
+    "mannwhitney_U": 1397664.0,
+    "p": 5.477611567108193e-14,
+    "n_wrong": 1596,
+    "n_right": 1518
+  },
+  "molecule_offfamily_accuracy_inside_vs_outside_domain": {
+    "inside_h*_accuracy": 0.5566666666666666,
+    "inside_h*_n": 1500,
+    "outside_h*_accuracy": 0.4231722428748451,
+    "outside_h*_n": 1614
+  }
+}

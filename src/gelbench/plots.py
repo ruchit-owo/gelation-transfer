@@ -27,9 +27,52 @@ def _save(fig, out: Path):
 
 
 # --------------------------------------------------------------------------- #
-def fig_headline_drop_vs_ad(perf: pd.DataFrame, out: Path,
-                            admetric: str = "median_novelty") -> None:
-    """Off-family AUC drop vs training-set AD distance (the lead figure)."""
+def _acc_ci(correct: np.ndarray, n_boot: int = 2000, seed: int = 0):
+    """Bootstrap 95% CI of the mean of a 0/1 array."""
+    correct = np.asarray(correct, dtype=float)
+    rng = np.random.default_rng(seed)
+    boots = [correct[rng.integers(0, len(correct), len(correct))].mean()
+             for _ in range(n_boot)]
+    return correct.mean(), np.percentile(boots, 2.5), np.percentile(boots, 97.5)
+
+
+def fig_headline_ad_trust(permol: pd.DataFrame, out: Path, model: str = "logreg",
+                          n_bins: int = 4) -> None:
+    """LEAD FIGURE. Off-family accuracy falls as applicability-domain distance
+    (leverage) rises — the actionable 'should I trust this prediction?' result.
+    """
+    pm = permol[permol["model"] == model].dropna(subset=["leverage"]).copy()
+    labels = [f"Q{i+1}" for i in range(n_bins)]
+    pm["bin"] = pd.qcut(pm["leverage"], n_bins, labels=labels, duplicates="drop")
+    fig, ax = plt.subplots(figsize=(6.6, 4.6))
+    xs, accs, los, his, ns = [], [], [], [], []
+    for i, lab in enumerate(labels):
+        g = pm[pm["bin"] == lab]
+        if not len(g):
+            continue
+        m, lo, hi = _acc_ci(g["correct"].to_numpy())
+        xs.append(i); accs.append(m); los.append(m - lo); his.append(hi - m); ns.append(len(g))
+    bars = ax.bar(xs, accs, yerr=[los, his], capsize=4, width=0.65,
+                  color="#4575b4", edgecolor="k", linewidth=0.5)
+    for x, m, n in zip(xs, accs, ns):
+        ax.text(x, 0.02, f"n={n}", ha="center", va="bottom", color="w", fontsize=8)
+        ax.text(x, m + 0.02, f"{m:.2f}", ha="center", va="bottom", fontsize=9)
+    ax.axhline(0.5, color="0.4", ls=":", lw=1, label="chance (0.5)")
+    ax.set_xticks(xs)
+    ax.set_xticklabels(["Q1\n(closest)", "Q2", "Q3", "Q4\n(most distant)"][:len(xs)])
+    ax.set_xlabel("applicability-domain distance (leverage quartile of the held-out molecule)")
+    ax.set_ylabel(f"off-family accuracy ({model}, pooled over descriptors)")
+    ax.set_ylim(0, 1)
+    ax.set_title("Off-family predictions fail for molecules outside the training domain")
+    ax.legend(loc="upper right", fontsize=9)
+    _save(fig, out)
+
+
+# --------------------------------------------------------------------------- #
+def fig_family_drop_vs_ad(perf: pd.DataFrame, out: Path,
+                          admetric: str = "median_novelty") -> None:
+    """Family-level AUC drop vs training-set AD distance (secondary; confounded
+    by each family's within-family ceiling, so read with care)."""
     sub = perf.dropna(subset=["auc_drop", admetric]).copy()
     fig, ax = plt.subplots(figsize=(6.2, 4.6))
     for _, r in sub.iterrows():
@@ -48,7 +91,7 @@ def fig_headline_drop_vs_ad(perf: pd.DataFrame, out: Path,
     ax.axhline(0, color="0.6", lw=0.8)
     ax.set_xlabel(f"training-set AD distance ({admetric.replace('median_', 'median ')})")
     ax.set_ylabel("off-family AUC drop\n(within-family CV − leave-one-family-out)")
-    ax.set_title("Does applicability-domain distance explain the transfer drop?")
+    ax.set_title("Family-level drop vs AD distance (confounded by baseline ceiling)")
     _family_rep_legend(ax, sub)
     _save(fig, out)
 
@@ -122,16 +165,19 @@ def fig_transfer_heatmap(matrix: pd.DataFrame, out: Path,
 
 # --------------------------------------------------------------------------- #
 def fig_molecule_ad(permol: pd.DataFrame, out: Path,
-                    admetric: str = "novelty", model: str = "logreg") -> None:
+                    admetric: str = "leverage", model: str = "logreg") -> None:
     """Off-family correctness vs a per-molecule AD distance."""
     pm = permol[permol["model"] == model].dropna(subset=[admetric])
+    log = admetric in ("leverage", "knn_distance")
     fig, ax = plt.subplots(figsize=(6, 4.2))
-    groups = [pm.loc[pm["correct"] == 1, admetric], pm.loc[pm["correct"] == 0, admetric]]
+    raw = [pm.loc[pm["correct"] == 1, admetric], pm.loc[pm["correct"] == 0, admetric]]
+    groups = [np.log10(np.clip(g, 1e-3, None)) if log else g for g in raw]
     parts = ax.violinplot(groups, showmedians=True, showextrema=False)
     for pc, c in zip(parts["bodies"], ["#4daf4a", "#e41a1c"]):
         pc.set_facecolor(c); pc.set_alpha(0.5)
     ax.set_xticks([1, 2]); ax.set_xticklabels(["correct", "incorrect"])
-    ax.set_ylabel(f"per-molecule {admetric}")
+    ax.set_ylabel(f"per-molecule {admetric}" + (" (log10)" if log else ""))
+    groups = raw   # significance test on the raw values below
     if len(groups[0]) > 5 and len(groups[1]) > 5:
         u, p = stats.mannwhitneyu(groups[1], groups[0], alternative="greater")
         ax.set_title(f"Off-family {admetric} vs correctness ({model})\n"

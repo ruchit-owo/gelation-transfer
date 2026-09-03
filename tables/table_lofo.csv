@@ -1,0 +1,10 @@
+representation,held_out_family,n_test,test_majority_baseline,accuracy,auc
+mordred,nucleoside,71,0.535,0.634,0.540
+mordred,peptide_expt,367,0.676,0.431,0.354
+mordred,tripeptide,600,0.702,0.575,0.626
+morgan,nucleoside,71,0.535,0.437,0.502
+morgan,peptide_expt,367,0.676,0.425,0.569
+morgan,tripeptide,600,0.702,0.428,0.566
+rdkit2d,nucleoside,71,0.535,0.423,0.521
+rdkit2d,peptide_expt,367,0.676,0.414,0.370
+rdkit2d,tripeptide,600,0.702,0.573,0.661
