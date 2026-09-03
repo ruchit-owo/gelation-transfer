@@ -1,0 +1,29 @@
+[
+  {
+    "family": "nucleoside",
+    "source": "C:\\Users\\RUCHIT\\Desktop\\RUCHIT-DATA\\nucleoside-hydrogel-repro\\data\\raw\\upstream_repo\\data\\Original data\\Smiles_data.csv",
+    "kind": "local_copy",
+    "path": "data\\raw\\nucleoside\\Smiles_data.csv",
+    "bytes": 10206,
+    "sha256": "4ba35a40d731bda40c3aa36b757f5f58e9b0f56544e395464f0feb46d3dae372",
+    "retrieved_utc": "2026-09-03T02:50:04Z"
+  },
+  {
+    "family": "tripeptide",
+    "source": "https://raw.githubusercontent.com/mnjirjak/ml_peptide_self_assembly/main/SA_ML_predictive/data/tripeptides_AP.npy",
+    "kind": "url",
+    "path": "data\\raw\\tripeptide\\tripeptides_AP.npy",
+    "bytes": 175575,
+    "sha256": "9f67aadc621828f1f1495e2657624e6cacd5e3a65f4a2d9a380ad43d5593ba2e",
+    "retrieved_utc": "2026-09-03T02:50:06Z"
+  },
+  {
+    "family": "peptide_expt",
+    "source": "https://raw.githubusercontent.com/mnjirjak/ml_peptide_self_assembly/main/SA_ML_predictive/data/data_SA.csv",
+    "kind": "url",
+    "path": "data\\raw\\peptide_expt\\data_SA.csv",
+    "bytes": 3814,
+    "sha256": "743e109a38904ea05c533fb4b6d5269426967b628a3870bb75cec26340ad17b3",
+    "retrieved_utc": "2026-09-03T02:50:08Z"
+  }
+]

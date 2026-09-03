@@ -52,11 +52,41 @@ features:
   mordred: true             # optional; skipped gracefully if it fails to import
   alvadesc: true            # loaded from data/features/alvadesc_<family>.csv if present
 
-# --- Threshold sensitivity for continuous-score families ---------------------
-# Continuous families (e.g. Frederix/Tuttle tripeptide aggregation propensity)
-# are binarised at `primary`; `sensitivity` values are re-run to check the
-# finding is not an artefact of the cut. Concrete values are set per source in
-# PROVENANCE.md once the score distribution is known.
-threshold:
-  quantile_primary: 0.50    # placeholder; overridden per-source in curation
-  sensitivity_quantiles: [0.40, 0.60]
+# --- Data sources ------------------------------------------------------------
+# Every family's origin, licence, and curation parameters live here so nothing
+# is hard-coded in a script. Curation writes the full record to PROVENANCE.md.
+sources:
+
+  nucleoside:
+    kind: local_repo         # reused from the sibling reproduction repo
+    repo_path: ../nucleoside-hydrogel-repro
+    smiles_csv: "data/raw/upstream_repo/data/Original data/Smiles_data.csv"
+    smiles_col: Chemdraw_smiles      # standardise the drawn SMILES uniformly
+    id_col: ID
+    label_col: "Hydrogel-forming ability"   # already binary 1/0
+    alvadesc_export: data/interim/fresh_pull/alvadesc_export.csv
+    citation: "Li W. et al., Nat. Commun. 15, 2603 (2024)"
+    doi: "10.1038/s41467-024-46866-9"
+    deposit: "github.com/leescu/NHGPM"
+    licence: "CC BY 4.0 (article); Apache-2.0 (deposited code/data)"
+
+  tripeptide:
+    kind: peptide_ap         # sequence dict -> AP score in a .npy pickle
+    url: "https://raw.githubusercontent.com/mnjirjak/ml_peptide_self_assembly/main/SA_ML_predictive/data/tripeptides_AP.npy"
+    citation: "Frederix P.W.J.M. et al., Nat. Chem. 7, 30-37 (2015); AP values redeposited by Njirjak M. et al., Nat. Mach. Intell. 6, 1487 (2024)"
+    doi_source: "10.1038/nchem.2122"
+    doi_data: "10.5281/zenodo.13847868"
+    licence: "MIT (data deposit)"
+    ap_threshold: 1.5        # AP >= 1.5 -> self-assembling (strong aggregator)
+    ap_threshold_sensitivity: [1.4, 1.6]
+    subsample_n: 600         # seeded, label-stratified; full 8000 kept as raw
+
+  peptide_expt:
+    kind: peptide_seq_csv    # experimental self-assembly labels, one-letter seqs
+    url: "https://raw.githubusercontent.com/mnjirjak/ml_peptide_self_assembly/main/SA_ML_predictive/data/data_SA.csv"
+    sep: ";"
+    seq_col: peptide_sequence
+    label_col: peptide_label
+    citation: "Njirjak M. et al., Nat. Mach. Intell. 6, 1487 (2024), experimental set compiled from the self-assembly literature"
+    doi_data: "10.5281/zenodo.13847868"
+    licence: "MIT (data deposit)"

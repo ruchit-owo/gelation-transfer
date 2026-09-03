@@ -1,0 +1,7 @@
+# Normalise line endings so tracked results/tables/figures don't churn between
+# machines and the determinism test compares like with like.
+* text=auto eol=lf
+*.png binary
+*.pdf binary
+*.xlsx binary
+*.pkl binary

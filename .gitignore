@@ -1,6 +1,7 @@
 # Raw downloads are large and re-downloadable; only the manifest is tracked.
 data/raw/**
 !data/raw/.gitkeep
+!data/raw/manifest.json
 
 # Python
 __pycache__/

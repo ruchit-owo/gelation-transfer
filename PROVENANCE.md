@@ -27,7 +27,32 @@ points back to one of the sources below.
 - **Dropped:** <n unparseable, n duplicates>
 -->
 
-_Populated during curation (Phase 2)._
+### nucleoside — 71 molecules (38 gel / 33 non-gel)
+
+- **Source:** Li W. et al., Nat. Commun. 15, 2603 (2024)
+- **doi:** 10.1038/s41467-024-46866-9
+- **deposit:** github.com/leescu/NHGPM
+- **Licence:** CC BY 4.0 (article); Apache-2.0 (deposited code/data)
+- **Labels:** experimental gel/non-gel (binary as deposited).
+- **Dropped:** 0 unparseable, 0 within-family duplicates.
+
+### peptide_expt — 367 molecules (248 gel / 119 non-gel)
+
+- **Source:** Njirjak M. et al., Nat. Mach. Intell. 6, 1487 (2024), experimental set compiled from the self-assembly literature
+- **doi_data:** 10.5281/zenodo.13847868
+- **Licence:** MIT (data deposit)
+- **Labels:** experimental gel/non-gel (binary as deposited).
+- **Dropped:** 0 unparseable, 0 within-family duplicates.
+
+### tripeptide — 600 molecules (179 gel / 421 non-gel)
+
+- **Source:** Frederix P.W.J.M. et al., Nat. Chem. 7, 30-37 (2015); AP values redeposited by Njirjak M. et al., Nat. Mach. Intell. 6, 1487 (2024)
+- **doi_source:** 10.1038/nchem.2122
+- **doi_data:** 10.5281/zenodo.13847868
+- **Licence:** MIT (data deposit)
+- **Labels:** continuous aggregation propensity (AP) binarised at AP >= 1.5 (sensitivity: [1.4, 1.6]); seeded stratified subsample n=600.
+- **Dropped:** 0 unparseable, 0 within-family duplicates.
+
 
 ---
 
@@ -42,4 +67,4 @@ _Populated during curation (Phase 2)._
 
 ## Cross-family SMILES collisions
 
-_Populated during curation._
+1 molecule(s) appeared in more than one family and were assigned to the earliest family in config order; rows dropped per family: {'peptide_expt': 1}.
