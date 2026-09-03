@@ -141,14 +141,16 @@ the loader can align rows.
 1. **Import** the `.smi` file (SMILES with the second column as Name/ID).
 2. Enable **all 2D descriptor blocks**.
 3. **Disable every 3D block** (no conformers are generated).
-4. Do **not** filter or scale inside alvaDesc — export raw descriptor values.
-5. **Export to CSV** with the molecule **Name (id)** as the first column.
-   `;` or tab delimiters are both fine — the loader auto-detects.
+4. Do **not** filter or reduce inside alvaDesc (answer "No" to variable
+   reduction) — export the raw descriptor values.
+5. **Save descriptors** as **Tabbed text file (*.txt)** (alvaDesc has no CSV
+   option; the tab-delimited export with the NAME column is auto-detected), or
+   CSV if your version offers it. Single file, all molecules.
 
-## Save the outputs here, named exactly:
-    data/features/alvadesc_nucleoside.csv
-    data/features/alvadesc_tripeptide.csv
-    data/features/alvadesc_peptide_expt.csv
+## Save the outputs here, named exactly (.txt or .csv both accepted):
+    data/features/alvadesc_nucleoside.txt
+    data/features/alvadesc_tripeptide.txt
+    data/features/alvadesc_peptide_expt.txt
 
 The nucleoside export from the sibling NHGPM reproduction can be reused if it was
 produced with the same all-2D / no-3D settings; otherwise re-run it here.
@@ -178,13 +180,22 @@ def _read_alvadesc_csv(path: Path) -> pd.DataFrame:
     return df
 
 
+def _alvadesc_path(feat_dir: Path, fam: str):
+    """Locate a family's alvaDesc export, accepting .csv or alvaDesc's .txt."""
+    for ext in (".csv", ".txt"):
+        p = feat_dir / f"alvadesc_{fam}{ext}"
+        if p.exists():
+            return p
+    return None
+
+
 def load_alvadesc(cfg, families: list) -> pd.DataFrame:
-    """Concatenate per-family alvaDesc CSVs on their shared descriptor columns."""
+    """Concatenate per-family alvaDesc exports on their shared descriptor columns."""
     feat_dir = cfg["paths"]["features"]
     parts, missing = [], []
     for fam in families:
-        p = feat_dir / f"alvadesc_{fam}.csv"
-        if not p.exists():
+        p = _alvadesc_path(feat_dir, fam)
+        if p is None:
             missing.append(fam)
             continue
         parts.append(_read_alvadesc_csv(p))
@@ -282,6 +293,6 @@ def available_representations(cfg) -> list:
         if _cache_path(cfg, name).exists():
             out.append(name)
     fams = sorted(load_dataset(cfg)["family"].unique())
-    if all((cfg["paths"]["features"] / f"alvadesc_{f}.csv").exists() for f in fams):
+    if all(_alvadesc_path(cfg["paths"]["features"], f) is not None for f in fams):
         out.append("alvadesc")
     return out
