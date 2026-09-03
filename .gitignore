@@ -14,5 +14,13 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
-# Do NOT ignore processed data, features, results, tables, figures — those are
-# the reproducible outputs and are tracked so a reviewer can diff them.
+# Open-descriptor caches are large and deterministically regenerable by
+# experiments/02_features.py, so they are not tracked. The alvaDesc inputs
+# (.smi) and the alvaDesc output CSVs (which need the commercial licence and
+# are NOT regenerable) ARE tracked.
+data/features/rdkit2d.csv
+data/features/morgan.csv
+data/features/mordred.csv
+
+# Do NOT ignore processed data, results, tables, figures — those are the
+# reproducible outputs and are tracked so a reviewer can diff them.
