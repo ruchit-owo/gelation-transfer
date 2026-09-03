@@ -68,3 +68,28 @@ points back to one of the sources below.
 ## Cross-family SMILES collisions
 
 1 molecule(s) appeared in more than one family and were assigned to the earliest family in config order; rows dropped per family: {'peptide_expt': 1}.
+
+---
+
+## alvaDesc feature exports (commercial; NOT tracked in git)
+
+The alvaDesc descriptor matrices are large (~34 MB total) and require a
+commercial licence, so they are **git-ignored** rather than committed. They are
+**not regenerable by the open pipeline** — to recreate them, run alvaDesc on the
+tracked inputs `data/features/alvadesc_inputs/*.smi` following
+`data/features/alvadesc_inputs/ALVADESC_INSTRUCTIONS.md` (all 2D descriptor
+blocks, no 3D, no variable reduction), and save each export into `data/features/`
+under the name below. The loader accepts `.txt` (alvaDesc's Tabbed-text export)
+or `.csv`. Everything downstream (within-family, transfer, AD, figures) then
+regenerates from `run_all.py --from 3`.
+
+Version used: **alvaDesc 3.0.16**; 4215 2D descriptors; molecule Name = the `id`.
+
+| file | molecules | size | sha256 |
+|---|---|---|---|
+| `alvadesc_nucleoside.csv` | 71 | 2.3 MB | `0cff2117e8971dc5ac0ac6cfc155ba0cdaf7d2d069b4b9d5207869c75685e54e` |
+| `alvadesc_tripeptide.txt` | 600 | 19.1 MB | `f158afe794825bdf65707091734d13565e3ad39bf87fc93090e516ce51d43797` |
+| `alvadesc_peptide_expt.txt` | 367 | 11.8 MB | `6e823f549c9567595776b68df03693647217d59b8ffcdf20a60b5ae3b8c0fa40` |
+
+(alvaDesc output is not guaranteed bit-identical across versions/machines; these
+checksums record the exact files used to produce the committed results.)

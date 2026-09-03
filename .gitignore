@@ -15,12 +15,17 @@ __pycache__/
 Thumbs.db
 
 # Open-descriptor caches are large and deterministically regenerable by
-# experiments/02_features.py, so they are not tracked. The alvaDesc inputs
-# (.smi) and the alvaDesc output CSVs (which need the commercial licence and
-# are NOT regenerable) ARE tracked.
+# experiments/02_features.py, so they are not tracked.
 data/features/rdkit2d.csv
 data/features/morgan.csv
 data/features/mordred.csv
+
+# alvaDesc exports are large (~34 MB) and licence-gated; not tracked. Regenerate
+# them by running alvaDesc on data/features/alvadesc_inputs/*.smi (see
+# ALVADESC_INSTRUCTIONS.md). Expected checksums are recorded in PROVENANCE.md.
+# The .smi inputs themselves stay tracked.
+data/features/alvadesc_*.csv
+data/features/alvadesc_*.txt
 
 # Run logs are noise, not results.
 results/*.log
