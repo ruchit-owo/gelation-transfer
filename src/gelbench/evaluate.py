@@ -53,6 +53,27 @@ class CleanInf(BaseEstimator, TransformerMixin):
         return np.where(np.isfinite(X), X, np.nan)
 
 
+class Winsorize(BaseEstimator, TransformerMixin):
+    """Clip standardised features to +/- ``limit`` (fit-free, so leak-free).
+
+    Purely a robustness guard: some 2D descriptors (e.g. RDKit ``Ipc``) explode
+    for long peptides, and standardising them with *another* family's mean/SD in
+    cross-family prediction yields z-scores that overflow the tree models'
+    float32 cast. ``limit`` is set far beyond any real z-score, so this never
+    touches within-family results; it only tames pathological cross-family
+    values.
+    """
+
+    def __init__(self, limit: float = 1e6):
+        self.limit = limit
+
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        return np.clip(np.asarray(X, dtype=float), -self.limit, self.limit)
+
+
 def _make_classifier(model_name: str, seed: int):
     if model_name == "logreg":
         return LogisticRegression(max_iter=5000, class_weight="balanced",
@@ -75,8 +96,10 @@ _GRIDS = {
 }
 
 
-def build_pipeline(model_name: str, n_features: int, k_select: int, seed: int) -> Pipeline:
-    """Leak-free pipeline: clean -> impute -> variance -> select -> scale -> clf.
+def build_pipeline(model_name: str, n_features: int, k_select: int, seed: int,
+                   clip: float = 1e6) -> Pipeline:
+    """Leak-free pipeline: clean -> impute -> variance -> select -> scale ->
+    winsorize -> clf.
 
     ``k_select`` is clamped to the number of available features.
     """
@@ -87,6 +110,7 @@ def build_pipeline(model_name: str, n_features: int, k_select: int, seed: int) -
         ("variance", VarianceThreshold(0.0)),
         ("select", SelectKBest(f_classif, k=k)),
         ("scale", StandardScaler()),
+        ("winsor", Winsorize(clip)),
         ("clf", _make_classifier(model_name, seed)),
     ])
 
@@ -94,7 +118,8 @@ def build_pipeline(model_name: str, n_features: int, k_select: int, seed: int) -
 def _grid_search(model_name: str, n_features: int, cfg) -> GridSearchCV:
     inner = StratifiedKFold(n_splits=cfg["cv"]["inner_splits"], shuffle=True,
                             random_state=cfg["seed"])
-    pipe = build_pipeline(model_name, n_features, cfg["cv"]["select_k"], cfg["seed"])
+    pipe = build_pipeline(model_name, n_features, cfg["cv"]["select_k"],
+                          cfg["seed"], clip=cfg["cv"].get("clip", 1e6))
     return GridSearchCV(pipe, _GRIDS[model_name], cv=inner, scoring="roc_auc",
                         n_jobs=-1, refit=True)
 

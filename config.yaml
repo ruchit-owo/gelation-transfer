@@ -31,6 +31,9 @@ cv:
   inner_splits: 5           # GridSearchCV inner folds (hyperparameters)
   select_k: 200             # SelectKBest univariate filter (fit INSIDE folds);
                             # clamped to n_features for low-dim representations
+  clip: 1000000.0           # winsorize standardised features to +/- this, INSIDE
+                            # folds; a float32-overflow guard for pathological
+                            # descriptors (e.g. Ipc) in cross-family prediction
   min_family_size: 30       # families below this are reported but flagged
                             # "transfer numbers unreliable" (spec §12)
 
