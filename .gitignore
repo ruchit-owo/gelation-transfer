@@ -22,5 +22,9 @@ data/features/rdkit2d.csv
 data/features/morgan.csv
 data/features/mordred.csv
 
+# Run logs are noise, not results.
+results/*.log
+results/metrics_*.log
+
 # Do NOT ignore processed data, results, tables, figures — those are the
 # reproducible outputs and are tracked so a reviewer can diff them.
